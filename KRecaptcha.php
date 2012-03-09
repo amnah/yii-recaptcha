@@ -18,7 +18,7 @@ class KRecaptcha extends KRecaptchaBase {
         $scriptOptions = <<<JS
     var RecaptchaOptions = {
         theme : 'custom',
-        custom_theme_widget: 'recaptcha_widget',
+        custom_theme_widget: 'recaptcha_widget_div',
     };
 JS;
 
@@ -35,8 +35,9 @@ JS;
         ));
 
         // echo the custom style
+        // note: use the same id as recaptcha's default theme - $("#recaptcha_widget_div")
         echo <<<HTML
-    <div id="recaptcha_widget_div">
+    <div id="recaptcha_widget_div" style="display: none;">
 
         <div id="recaptcha_image" style="border: 1px solid black;"></div>
 
@@ -63,8 +64,6 @@ JS;
 HTML;
 
     }
-
-
 
 }
 

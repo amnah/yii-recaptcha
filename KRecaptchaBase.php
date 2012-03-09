@@ -42,13 +42,24 @@ class KRecaptchaBase extends CInputWidget {
      * Displays default style recaptcha
      */
     public function runDefault() {
-    
+
         // add js client validation for required
         $this->_addClientRequiredValidation();
-        
+
+        // set recaptcha options for theme
+        // valid options are: red, white, blackglass, clean
+        $scriptOptions = <<<JS
+    var RecaptchaOptions = {
+        theme : 'blackglass'
+    };
+JS;
+
+        // register script in head (must come before actual recaptcha call)
+        Yii::app()->clientScript->registerScript('krecaptcha_options', $scriptOptions, CClientScript::POS_HEAD);
+
         // display default recaptcha theme
         echo recaptcha_get_html($this->publicKey, null, Yii::app()->request->isSecureConnection);
-        
+
     }
 
     /**
@@ -57,7 +68,7 @@ class KRecaptchaBase extends CInputWidget {
      * (so we cannot use Yii's built in required validator, which uses an automatically generated input id)
      */
     protected function _addClientRequiredValidation() {
-    
+
         // set message for required
         $message = Yii::t('yii','{attribute} cannot be blank.');
         $message = strtr($message, array(
