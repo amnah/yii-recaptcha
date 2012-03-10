@@ -1,6 +1,7 @@
 <?php
 
 class KRecaptchaValidator extends CValidator {
+
     /**
      * Skip if there are any other errors (e.g., required)
      * @var bool
@@ -17,12 +18,12 @@ class KRecaptchaValidator extends CValidator {
      * Constructor (CValidator does not have an init() function)
      */
     public function __construct() {
-        // call parent
-        //parent::__construct(); // parent is empty, no need!
-
         // include recaptcha library
         require_once dirname(__FILE__) . '/recaptcha/recaptchalib.php';
+
+        // note: validator has no parent::__construct()
     }
+
 
     /**
      * Validates the attribute of the object.
@@ -32,7 +33,7 @@ class KRecaptchaValidator extends CValidator {
      */
     protected function validateAttribute($object, $attribute) {
         // get public key from settings if not set yet
-        $this->privateKey = $this->privateKey ? $this->privateKey : Yii::app()->params['kRecaptchaPrivate'];
+        $this->privateKey = $this->privateKey ? $this->privateKey : Yii::app()->params['krecaptcha']['private'];
 
         // get input value
         $value = $object->$attribute;

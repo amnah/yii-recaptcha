@@ -31,7 +31,7 @@ class KRecaptchaBase extends CInputWidget {
      */
     public function run() {
         // get public key from4 settings if not set yet
-        $this->publicKey = $this->publicKey ? $this->publicKey : Yii::app()->params['kRecaptchaPublic'];
+        $this->publicKey = $this->publicKey ? $this->publicKey : Yii::app()->params['krecaptcha']['public'];
 
         // calculate and call method name
         $methodName = "run" . ucfirst($this->style);
