@@ -21,7 +21,7 @@ class KRecaptchaValidator extends CValidator {
         //parent::__construct(); // parent is empty, no need!
 
         // include recaptcha library
-        require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'recaptchalib.php';
+        require_once dirname(__FILE__) . '/recaptcha/recaptchalib.php';
     }
 
     /**

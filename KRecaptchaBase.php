@@ -23,7 +23,7 @@ class KRecaptchaBase extends CInputWidget {
     public function init() {
         // call parent and include recaptcha library
         parent::init();
-        require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'recaptchalib.php';
+        require_once dirname(__FILE__) . '/recaptcha/recaptchalib.php';
     }
 
     /**
