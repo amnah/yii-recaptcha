@@ -16,7 +16,7 @@ class KRecaptcha extends KRecaptchaBase {
 
         // set recaptcha options for custom theme
         $scriptOptions = <<<JS
-     var RecaptchaOptions = {
+    var RecaptchaOptions = {
         theme : 'custom',
         custom_theme_widget: 'recaptcha_widget_div',
     };
