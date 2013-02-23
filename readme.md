@@ -16,8 +16,20 @@ Yii recaptcha extension
 <?php $this->widget('application.extensions.krecaptcha.KRecaptcha', array(
     'model' => $model,
     'attribute' => 'recaptcha',
-    'style' => 'custom', // "default" or "custom". extend if you want to theme yourself
+    'style' => 'custom',
 )); ?>
+```
+
+* Change recaptcha styling if desired by extending the **KRecaptcha** class and adding a new function
+
+```php
+/**
+ * The styling of the recaptcha widget, which will decide which function to use
+ * For example,
+ * $style = "default"   =>     $this->runDefault();
+ * $style = "custom"    =>     $this->runCustom();
+ * @var string
+ */
 ```
 
 * Add validator to model rules()
