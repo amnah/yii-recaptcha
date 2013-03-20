@@ -16,6 +16,7 @@ Yii recaptcha extension
 <?php $this->widget('application.extensions.krecaptcha.KRecaptcha', array(
     'model' => $model,
     'attribute' => 'recaptcha',
+    'publicKey' => '<recaptcha public key>',
     'style' => 'custom',
 )); ?>
 ```
@@ -39,7 +40,7 @@ public function rules() {
 	return array(
 		...
 		array('recaptcha', 'required'),
-		array('recaptcha', 'application.extensions.krecaptcha.KRecaptchaValidator'),
+		array('recaptcha', 'application.extensions.krecaptcha.KRecaptchaValidator', 'privateKey' => '<recaptcha private key>'),
 		...
 	);
 }
