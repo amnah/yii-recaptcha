@@ -25,7 +25,7 @@ class KRecaptchaExt extends KRecaptcha {
         $scriptOptions = <<<JS
     var RecaptchaOptions = {
         theme : 'custom',
-        custom_theme_widget: 'recaptcha_widget_div'
+        custom_theme_widget: 'recaptcha_widget_div',
     };
 JS;
 
@@ -52,13 +52,15 @@ JS;
 
         <a href="javascript:Recaptcha.reload()">Generate new</a>
 
-        <!--div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect please try again</div-->
+        <!--
+        <div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect please try again</div>
 
-        <!--span class="recaptcha_only_if_image">Enter the words above:</span-->
-        <!--span class="recaptcha_only_if_audio">Enter the numbers you hear:</span-->
+        <span class="recaptcha_only_if_image">Enter the words above:</span>
+        <span class="recaptcha_only_if_audio">Enter the numbers you hear:</span>
 
-        <!--div class="recaptcha_only_if_image"><a href="javascript:Recaptcha.switch_type('audio')">Get an audio CAPTCHA</a></div-->
-        <!--div class="recaptcha_only_if_audio"><a href="javascript:Recaptcha.switch_type('image')">Get an image CAPTCHA</a></div-->
+        <div class="recaptcha_only_if_image"><a href="javascript:Recaptcha.switch_type('audio')">Get an audio CAPTCHA</a></div>
+        <div class="recaptcha_only_if_audio"><a href="javascript:Recaptcha.switch_type('image')">Get an image CAPTCHA</a></div>
+        -->
 
         <script type="text/javascript" src="{$recaptcha_server}/challenge?k={$this->publicKey}"></script>
         <noscript>
