@@ -6,7 +6,7 @@ Yii recaptcha extension
 ## Installation
 
 * Extract files into **protected/extensions/krecaptcha**
-* Copy **protected/extensions/krecaptcha/KRecaptchaExt.php** to **protected/extensions/KRecaptchaExt.php**
+* Copy **protected/extensions/krecaptcha/KRecaptcha.php** to **protected/extensions/KRecaptcha.php**
 
 ## Usage
 
@@ -14,7 +14,7 @@ Yii recaptcha extension
 * Call widget in view file (take note of the **style** attribute, as that determines the function it calls)
 
 ```php
-<?php $this->widget('application.extensions.KRecaptchaExt', array(
+<?php $this->widget('application.extensions.KRecaptcha', array(
     'model' => $model,
     'attribute' => 'recaptcha',
     'publicKey' => '<recaptcha public key>',
@@ -22,7 +22,7 @@ Yii recaptcha extension
 )); ?>
 ```
 
-* Change recaptcha styling if desired by modifying the **KRecaptchaExt.php** file. Either modify `runCustom()` or create a new function
+* Change recaptcha styling if desired by modifying the **KRecaptcha.php** file. Either modify `runCustom()` or create a new function
 
 ```php
 /**
