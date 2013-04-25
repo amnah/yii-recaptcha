@@ -23,6 +23,16 @@ Please see https://developers.google.com/recaptcha/docs/customization.
 )); ?>
 ```
 
+```php
+/**
+ * The styling of the recaptcha widget, which will decide which function to use
+ * For example,
+ * $style = "default"   =>     $this->runDefault();
+ * $style = "custom"    =>     $this->runCustom();
+ * @var string
+ */
+```
+
 * Add validator to model rules()
 
 ```php
