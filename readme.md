@@ -1,12 +1,13 @@
 KRecaptcha
 =============================
 
-Yii recaptcha extension
+Yii recaptcha extension. This simple extension was built to give developers full control over their recaptcha styling via custom theming.
+
+Please see https://developers.google.com/recaptcha/docs/customization.
 
 ## Installation
 
 * Extract files into **protected/extensions/krecaptcha**
-* Copy **protected/extensions/krecaptcha/KRecaptcha.php** to **protected/extensions/KRecaptcha.php**
 
 ## Usage
 
@@ -14,24 +15,12 @@ Yii recaptcha extension
 * Call widget in view file (take note of the **style** attribute, as that determines the function it calls)
 
 ```php
-<?php $this->widget('application.extensions.KRecaptcha', array(
+<?php $this->widget('application.extensions.krecaptcha.KRecaptcha', array(
     'model' => $model,
     'attribute' => 'recaptcha',
     'publicKey' => '<recaptcha public key>',
     'style' => 'custom',
 )); ?>
-```
-
-* Change recaptcha styling if desired by modifying the **KRecaptcha.php** file. Either modify `runCustom()` or create a new function
-
-```php
-/**
- * The styling of the recaptcha widget, which will decide which function to use
- * For example,
- * $style = "default"   =>     $this->runDefault();
- * $style = "custom"    =>     $this->runCustom();
- * @var string
- */
 ```
 
 * Add validator to model rules()
@@ -45,4 +34,13 @@ public function rules() {
 		...
 	);
 }
+```
+
+## Extending
+
+* Creating a new file that extends the KRecaptcha or KRecaptchaValidator class
+* Reference the new file instead of the original
+
+```php
+<?php $this->widget('application.extensions.MyRecaptcha', array(...)); ?>
 ```

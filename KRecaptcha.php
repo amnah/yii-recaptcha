@@ -1,16 +1,106 @@
 <?php
 
-// require base class
-// check if this file is outside the extension folder
-if (file_exists(dirname(__FILE__) . '/krecaptcha/KRecaptchaBase.php')) {
-    require_once dirname(__FILE__) . '/krecaptcha/KRecaptchaBase.php';
-}
-// check if this file is within the extension folder
-elseif (file_exists(dirname(__FILE__) . '/KRecaptchaBase.php')) {
-    require_once dirname(__FILE__) . '/KRecaptchaBase.php';
-}
+/**
+ * Yii recaptcha extension
+ *
+ * @author amnah
+ * @link https://github.com/amnah/yii-krecaptcha
+ * @link http://www.google.com/recaptcha
+ */
+class KRecaptcha extends CInputWidget {
 
-class KRecaptcha extends KRecaptchaBase {
+    /**
+     * Public key for reCAPTCHA
+     * @var string
+     */
+    public $publicKey;
+
+    /**
+     * The styling of the recaptcha widget, which will decide which function to use
+     * For example,
+     * $style = "default"   =>     $this->runDefault();
+     * $style = "custom"    =>     $this->runCustom();
+     * @var string
+     */
+    public $style = "default";
+
+    /**
+     * Init
+     */
+    public function init() {
+        // call parent and include recaptcha library
+        parent::init();
+        require_once dirname(__FILE__) . '/recaptcha/recaptchalib.php';
+    }
+
+    /**
+     * Run widget
+     */
+    public function run() {
+        // get public key from settings if not set yet
+        $this->publicKey = $this->publicKey ? $this->publicKey : Yii::app()->params['krecaptcha']['public'];
+
+        // calculate and call method name
+        $methodName = "run" . ucfirst($this->style);
+        $this->$methodName();
+    }
+
+    /**
+     * Adds js client-side required validation script into document ready
+     * We have to handle client validation manually because recaptcha requires the input id to be "recaptcha_challenge_field"
+     * (so we cannot use Yii's built in required validator, which uses an automatically generated input id)
+     */
+    protected function _addClientRequiredValidation() {
+
+        // set message for required
+        $message = Yii::t('yii','{attribute} cannot be blank.');
+        $message = strtr($message, array(
+            '{attribute}' => $this->model->getAttributeLabel($this->attribute),
+        ));
+
+        // add script
+        $scriptValidation = <<<JS
+    $("#recaptcha_response_field").blur(function() {
+        var widgetDiv = $("#recaptcha_widget_div");
+        if ($.trim($(this).val()) == "") {
+            $(this).addClass("error");
+            widgetDiv.siblings("label").addClass("error");
+            widgetDiv.siblings("div.errorMessage").html('$message').show();
+
+        }
+        else {
+            widgetDiv.siblings("label").removeClass("error");
+            widgetDiv.siblings("div.errorMessage").hide();
+            $(this).removeClass("error");
+        }
+    });
+JS;
+        // register in document ready
+        Yii::app()->clientScript->registerScript('krecaptcha_client_validation', $scriptValidation, CClientScript::POS_END);
+    }
+
+    /**
+     * Displays default style recaptcha
+     */
+    public function runDefault() {
+
+        // add js client validation for required
+        $this->_addClientRequiredValidation();
+
+        // set recaptcha options for theme
+        // valid options are: red, white, blackglass, clean
+        $scriptOptions = <<<JS
+    var RecaptchaOptions = {
+        theme : 'blackglass'
+    };
+JS;
+
+        // register script in head (must come before actual recaptcha call)
+        Yii::app()->clientScript->registerScript('krecaptcha_options', $scriptOptions, CClientScript::POS_HEAD);
+
+        // display default recaptcha theme
+        echo recaptcha_get_html($this->publicKey, null, Yii::app()->request->isSecureConnection);
+    }
 
     /**
      * Displays custom style recaptcha using recaptcha's custom theming
@@ -25,7 +115,7 @@ class KRecaptcha extends KRecaptchaBase {
         $scriptOptions = <<<JS
     var RecaptchaOptions = {
         theme : 'custom',
-        custom_theme_widget: 'recaptcha_widget_div',
+        custom_theme_widget: 'recaptcha_widget_div'
     };
 JS;
 
