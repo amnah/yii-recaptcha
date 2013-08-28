@@ -1,6 +1,18 @@
 <?php
 
-class KRecaptchaValidator extends CValidator {
+namespace YiiRecaptcha;
+use Yii;
+use CValidator;
+use CModel;
+
+/**
+ * Yii Recaptcha Validator
+ *
+ * @author amnah
+ * @link https://github.com/amnah/yii-krecaptcha
+ * @link http://www.google.com/recaptcha
+ */
+class RecaptchaValidator extends CValidator {
 
     /**
      * Skip if there are any other errors (e.g., required)
@@ -19,7 +31,7 @@ class KRecaptchaValidator extends CValidator {
      */
     public function __construct() {
         // include recaptcha library
-        require_once dirname(__FILE__) . '/recaptcha/recaptchalib.php';
+        require_once dirname(__FILE__) . '/recaptchalib/recaptchalib.php';
 
         // note: validator has no parent::__construct()
     }
@@ -28,12 +40,12 @@ class KRecaptchaValidator extends CValidator {
     /**
      * Validates the attribute of the object.
      * If there is any error, the error message is added to the object.
-     * @param CModel the object being validated
-     * @param string the attribute being validated
+     * @param CModel $object the object being validated
+     * @param string $attribute the attribute being validated
      */
     protected function validateAttribute($object, $attribute) {
         // get public key from settings if not set yet
-        $this->privateKey = $this->privateKey ? $this->privateKey : Yii::app()->params['krecaptcha']['private'];
+        $this->privateKey = $this->privateKey ? $this->privateKey : Yii::app()->params['recaptcha']['private'];
 
         // get input value
         $value = $object->$attribute;

@@ -1,13 +1,19 @@
 <?php
 
+namespace YiiRecaptcha;
+use Yii;
+use CInputWidget;
+use CClientScript;
+
 /**
- * Yii recaptcha extension
+ * Yii Recaptcha Widget
  *
  * @author amnah
  * @link https://github.com/amnah/yii-krecaptcha
  * @link http://www.google.com/recaptcha
  */
-class KRecaptcha extends CInputWidget {
+
+class Recaptcha extends CInputWidget {
 
     /**
      * Public key for reCAPTCHA
@@ -30,7 +36,7 @@ class KRecaptcha extends CInputWidget {
     public function init() {
         // call parent and include recaptcha library
         parent::init();
-        require_once dirname(__FILE__) . '/recaptcha/recaptchalib.php';
+        require_once dirname(__FILE__) . '/recaptchalib/recaptchalib.php';
     }
 
     /**
@@ -38,7 +44,7 @@ class KRecaptcha extends CInputWidget {
      */
     public function run() {
         // get public key from settings if not set yet
-        $this->publicKey = $this->publicKey ? $this->publicKey : Yii::app()->params['krecaptcha']['public'];
+        $this->publicKey = $this->publicKey ? $this->publicKey : Yii::app()->params['recaptcha']['public'];
 
         // calculate and call method name
         $methodName = "run" . ucfirst($this->style);
@@ -76,7 +82,7 @@ class KRecaptcha extends CInputWidget {
     });
 JS;
         // register in document ready
-        Yii::app()->clientScript->registerScript('krecaptcha_client_validation', $scriptValidation, CClientScript::POS_END);
+        Yii::app()->clientScript->registerScript('recaptcha_client_validation', $scriptValidation, CClientScript::POS_END);
     }
 
     /**
@@ -96,7 +102,7 @@ JS;
 JS;
 
         // register script in head (must come before actual recaptcha call)
-        Yii::app()->clientScript->registerScript('krecaptcha_options', $scriptOptions, CClientScript::POS_HEAD);
+        Yii::app()->clientScript->registerScript('recaptcha_options', $scriptOptions, CClientScript::POS_HEAD);
 
         // display default recaptcha theme
         echo recaptcha_get_html($this->publicKey, null, Yii::app()->request->isSecureConnection);
@@ -120,13 +126,13 @@ JS;
 JS;
 
         // register script in head (must come before actual recaptcha call)
-        Yii::app()->clientScript->registerScript('krecaptcha_options', $scriptOptions, CClientScript::POS_HEAD);
+        Yii::app()->clientScript->registerScript('recaptcha_options', $scriptOptions, CClientScript::POS_HEAD);
 
         // determine secure or normal call
         $recaptcha_server = Yii::app()->request->isSecureConnection ? RECAPTCHA_API_SECURE_SERVER : RECAPTCHA_API_SERVER;
 
         // set <input> text
-        $input = CHtml::activeTextField($this->model, $this->attribute, array(
+        $input = \CHtml::activeTextField($this->model, $this->attribute, array(
             "size"=> 32,
             "id"  => "recaptcha_response_field"
         ));
