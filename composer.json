@@ -1,0 +1,12 @@
+{
+    "name": "amnah/yii-recaptcha",
+    "description": "Yii - Recaptcha widget and validator",
+    "keywords": ["yii","recaptcha"],
+    "homepage": "https://github.com/amnah/yii-recaptcha",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "amnah"
+        }
+    ]
+}
