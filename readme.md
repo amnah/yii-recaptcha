@@ -1,21 +1,28 @@
-KRecaptcha
+YiiRecaptcha
 =============================
 
-Yii recaptcha extension. This simple extension was built to give developers full control over their recaptcha styling via custom theming.
+Yii Recaptcha extension. This simple extension was built to give developers full control over their recaptcha styling via custom theming.
 
 Please see https://developers.google.com/recaptcha/docs/customization.
 
 ## Installation
 
-* Extract files into **protected/extensions/krecaptcha**
+* Install via composer - https://packagist.org/packages/amnah/yii-recaptcha
+* OR extract files into vendor dir - **protected/vendor/amnah/yii-recaptcha**
 
 ## Usage
 
 * Ensure that you have a model with an appropriate "recaptcha" attribute
+* Add path alias (modify path as needed)
+
+```php
+Yii::setPathOfAlias('YiiRecaptcha',Yii::getPathOfAlias("application.vendor.amnah.yii-recaptcha"));
+```
+
 * Call widget in view file (take note of the **style** attribute, as that determines the function it calls)
 
 ```php
-<?php $this->widget('application.extensions.krecaptcha.KRecaptcha', array(
+<?php $this->widget('YiiRecaptcha\Recaptcha', array(
     'model' => $model,
     'attribute' => 'recaptcha',
     'publicKey' => '<recaptcha public key>',
@@ -40,7 +47,7 @@ public function rules() {
 	return array(
 		...
 		array('recaptcha', 'required'),
-		array('recaptcha', 'application.extensions.krecaptcha.KRecaptchaValidator', 'privateKey' => '<recaptcha private key>'),
+        array('recaptcha', 'YiiRecaptcha\RecaptchaValidator', 'privateKey' => '<recaptcha private key>'),
 		...
 	);
 }
@@ -48,7 +55,7 @@ public function rules() {
 
 ## Extending
 
-* Creating a new file that extends the KRecaptcha or KRecaptchaValidator class
+* Create a new file that extends the YiiRecaptcha\Recaptcha or YiiRecaptcha\RecaptchaValidator class
 * Reference the new file instead of the original
 
 ```php
